@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Hello {{my_user.first_name}}, welcome to your page</h1>
+
+    <h2>Here are your messages:</h2>
+        {% for message in my_user.messages.all %}
+            {{message.message}} {{message.created_at}}<br>
+        {% endfor %}
+    
+</body>
+</html>

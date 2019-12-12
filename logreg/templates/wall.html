@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Message Wall!</title>
+    <style>
+    *{
+        font-family: sans-serif;
+    }
+    #head{
+        background-color: lightblue;
+        padding: 25px;
+    }
+    #head h1{
+        display: inline-block;
+        margin-right: 300px;
+    }
+    #head a{
+        display: inline-block;
+    }
+    #post{
+        background-color: lightblue;
+        margin-top: 25px;
+        padding: 25px;
+    }
+    #content{
+        background-color: lightblue;
+        margin-top: 25px;
+        padding: 25px;
+    }
+    .one_mess{
+        background-color: lightcoral;
+        padding: 25px;
+        margin: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div id='head'>
+        <h1>Welcome to the Message Wall!</h1>
+        <a href='/logout'>Logout</a>
+    </div>
+
+    <div id='post'>
+        <h2>Post a message!</h2>
+        <form action="/add_message" method="POST">
+            {% csrf_token %}
+            <input type='text' name='content'>
+            <input type="submit" value='Post Message'>
+        </form>
+    </div>
+
+    <div id='content'>
+        <h2>Messages:</h2>
+            {% for message in all_messages %}
+                    <div class='one_mess'>  
+                        {{message.message}} {{message.created_at}}<br>
+                        posted by:<a href="/view/{{message.poster.id}}"> {{message.poster.first_name}} {{message.poster.last_name}}</a><br>
+                        <h3>Post a Comment</h3>       
+                        <form action="/add_comm/{{message.id}}" method=POST>
+                            {% csrf_token %}
+                            <input type="text" name='content'>
+                            <input type="submit" value='Add Comment'>
+                        </form>
+                        {% for comment in message.comments.all %}
+                            {{comment.comment}} {{comment.created_at}}<br>
+                            {{comment.poster.first_name}} {{comment.poster.last_name}}
+                        {% endfor %}
+                    </div>
+
+            {% endfor %}
+
+    </div>
+
+
+</body>
+</html>
